@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row bg-secondary overflow-hidden" style="height: 100vh;">
-      <div class="col-md-3 h-100 overflow-auto">
+      <div class="col-md-3 h-50 overflow-auto">
         <input matInput class="w-75" placeholder="Search" [(ngModel)]="searchQuery" />
 
         <button mat-button class="w-25" (click)="newResource()">new</button>
@@ -9,14 +9,28 @@
           <div class="w-100">
             <button mat-button class="w-100" (click)="showResource(resource)">
               <span class="float-left" style="background-color: transparent">
-                {{ resource._id.$oid }}
-              </span>
-              <span class="float-right">
-                {{ resource._id.$oid }}
+                {{ resource.headers.name }}
               </span>
             </button>
           </div>
         </div>
+
+        <div class="col-md-3 h-50 overflow-auto">
+          <input matInput class="w-75" placeholder="Search" [(ngModel)]="searchQuery" />
+
+          <button mat-button class="w-25" (click)="newDataset()">new</button>
+
+          <div class="w-100" *ngFor="let dataset of datasets" style="list-style: none">
+            <div class="w-100">
+              <button mat-button class="w-100" (click)="showDataset(dataset)">
+                <span class="float-left" style="background-color: transparent">
+                  {{ dataset.headers.name }}
+                </span>
+              </button>
+            </div>
+          </div>
+
+
       </div>
 
       <div class="col-md-9 h-100 " style="overflow-x: hidden; overflow-y: scroll">

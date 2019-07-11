@@ -13,7 +13,7 @@ export class DatasetService {
   ) { }
 
   datasetFind(compact: boolean = false, condition: any = {}): Observable<DatasetFindResponse> {
-    return this.http.post<DatasetFindResponse>(`http://dms.whoknows.ir/dataset/find`, { compact, condition });
+    return this.http.post<DatasetFindResponse>(`https://whoknows-data-manager-server.liara.run/dataset/find`, { compact, condition });
   }
 
 }

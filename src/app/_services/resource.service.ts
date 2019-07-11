@@ -13,7 +13,7 @@ export class ResourceService {
   ) { }
 
   resourceFind(compact: boolean = false, condition: any = {}): Observable<ResourceFindResponse> {
-    return this.http.post<ResourceFindResponse>(`http://dms.whoknows.ir/resource/find`, { compact, condition });
+    return this.http.post<ResourceFindResponse>(`https://whoknows-data-manager-server.liara.run/resource/find`, { compact, condition });
   }
 
 }
