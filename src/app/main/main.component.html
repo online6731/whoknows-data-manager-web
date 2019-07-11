@@ -1,42 +1,62 @@
-<div class="container-fluid">
-    <div class="row bg-secondary overflow-hidden" style="height: 100vh;">
-      <div class="col-md-3 h-50 overflow-auto">
-        <input matInput class="w-75" placeholder="Search" [(ngModel)]="searchQuery" />
-
-        <button mat-button class="w-25" (click)="newResource()">new</button>
-
-        <div class="w-100" *ngFor="let resource of resources" style="list-style: none">
-          <div class="w-100">
+<div class="container" style="height: 100vh; width: 100vw; position: absolute; top: 0; left: 0;">
+  <div class="row" style="height: 100vh; width: 100vw;">
+    <div class="col-md-3" style="height: 100vh; ">
+      <div class="row" style="height: 50vh; overflow: scroll;">
+        <div class="col">
+          <div class="row" style="height: 5vh;">
+            <input mat-input class="w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
+            <button mat-button class="w-25" (click)="newResource()">new</button>
+          </div>
+          <div class="row w-100" *ngFor="let resource of resources" style="height: 5vh;">
             <button mat-button class="w-100" (click)="showResource(resource)">
-              <span class="float-left" style="background-color: transparent">
-                {{ resource.headers.name }}
-              </span>
+              {{ resource.headers.name }}
             </button>
           </div>
         </div>
-
-        <div class="col-md-3 h-50 overflow-auto">
-          <input matInput class="w-75" placeholder="Search" [(ngModel)]="searchQuery" />
-
-          <button mat-button class="w-25" (click)="newDataset()">new</button>
-
-          <div class="w-100" *ngFor="let dataset of datasets" style="list-style: none">
-            <div class="w-100">
-              <button mat-button class="w-100" (click)="showDataset(dataset)">
-                <span class="float-left" style="background-color: transparent">
-                  {{ dataset.headers.name }}
-                </span>
-              </button>
-            </div>
-          </div>
-
-
       </div>
 
-      <div class="col-md-9 h-100 " style="overflow-x: hidden; overflow-y: scroll">
-        <div class="row">
-
+      <div class="row" style="height: 50vh; overflow: scroll;">
+        <div class="col">
+          <div class="row" style="height: 5vh;">
+            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
+            <button mat-button class="w-25" (click)="newDataset()">new</button>
+          </div>
+          <div class="row w-100" *ngFor="let dataset of datasets" style="height: 5vh;">
+            <button mat-button class="w-100" (click)="showDataset(dataset)">
+              {{ dataset.headers.name }}
+            </button>
+          </div>
         </div>
       </div>
+
+
     </div>
+
+    <div class="col-md-9" style="height: 100vh;">
+      <div class="row" style="height: 10vh">
+        <div class="col-md-4">
+          name: <input [(ngModel)]="currentResource.headers.name">
+        </div>
+        <div class="col-md-4">
+          type: <input [(ngModel)]="currentResource.headers.type">
+        </div>
+        <div class="col-md-4">
+          base: <input [(ngModel)]="currentResource.headers.base">
+        </div>
+      </div>
+      <div class="row" style="height: 10vh">
+        <div class="col-md-6">
+          id_resource: <input [(ngModel)]="currentResource.headers.id_resource" style="width: 20vw; ">
+        </div>
+        <div class="col-md-6">
+          id_pattern: <input [(ngModel)]="currentResource.headers.id_pattern" style="width: 20vw; ">
+        </div>
+      </div>
+
+      <div class="row" style="height: 60vh">
+      </div>
+    </div>
+
+
   </div>
+</div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Resource } from '../_models/Resource';
-import { ResourceService } from '../_services/resource.service';
-import { DatasetService } from '../_services/dataset.service';
 import { Dataset } from '../_models/Dataset';
+import { Resource } from '../_models/Resource';
+import { DatasetService } from '../_services/dataset.service';
+import { ResourceService } from '../_services/resource.service';
 
 @Component({
   selector: 'app-main',
@@ -13,6 +13,8 @@ export class MainComponent implements OnInit {
 
   resources: Resource[] = [];
   datasets: Dataset[] = [];
+  currentResource: Resource;
+  currentDataset: Dataset;
 
   constructor(
     private resourceService: ResourceService,
@@ -20,6 +22,8 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentResource = new Resource();
+    this.currentDataset = new Dataset();
     this.updateResources();
     this.updateDataset();
   }
@@ -42,5 +46,15 @@ export class MainComponent implements OnInit {
         console.log(body);
       }
     });
+  }
+
+  showDataset(dataset: Dataset) {
+    this.currentDataset = dataset;
+    this.currentResource = null;
+  }
+
+  showResource(resource: Resource) {
+    this.currentDataset = null;
+    this.currentResource = resource;
   }
 }
