@@ -15,10 +15,11 @@ export class Resource {
     id_resource: '',
     id_pattern: '',
   };
-  getters: {
-    name: string;
-    xpath: string;
-    select: string;
-    replace: string[]
-  }[];
+  getters: {};
+  // getters: {
+  //   name: string;
+  //   xpath: string;
+  //   select: string;
+  //   replace: string[]
+  // };
 }

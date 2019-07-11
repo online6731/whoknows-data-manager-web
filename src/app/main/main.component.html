@@ -1,62 +1,131 @@
-<div class="container" style="height: 100vh; width: 100vw; position: absolute; top: 0; left: 0;">
+<div class="main container-fluid w-100 h-100" style="overflow: hidden;">
   <div class="row" style="height: 100vh; width: 100vw;">
-    <div class="col-md-3" style="height: 100vh; ">
-      <div class="row" style="height: 50vh; overflow: scroll;">
+    <div class="left-section col-md-3" style="height: 100vh; ">
+      <div class="row" style="height: 50vh; overflow: auto;">
         <div class="col">
-          <div class="row" style="height: 5vh;">
-            <input mat-input class="w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
-            <button mat-button class="w-25" (click)="newResource()">new</button>
+          <div class="row list-item">
+            <input class="input-field question w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
+            <button class="button-field w-25" (click)="newResource()">new</button>
           </div>
-          <div class="row w-100" *ngFor="let resource of resources" style="height: 5vh;">
-            <button mat-button class="w-100" (click)="showResource(resource)">
-              {{ resource.headers.name }}
+          <div class="row list-item" *ngFor="let resource of resources">
+            <button class="button-field w-100 h-100" (click)="showResource(resource)">
+              <div class="w-100"> {{ resource.headers.name }}</div>
             </button>
           </div>
         </div>
       </div>
-
-      <div class="row" style="height: 50vh; overflow: scroll;">
+      <div class="row" style="height: 50vh; overflow: auto">
         <div class="col">
-          <div class="row" style="height: 5vh;">
-            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
-            <button mat-button class="w-25" (click)="newDataset()">new</button>
+          <div class="row list-item">
+            <input class="input-field w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
+            <button class="button-field w-25" (click)="newDataset()">new</button>
           </div>
-          <div class="row w-100" *ngFor="let dataset of datasets" style="height: 5vh;">
-            <button mat-button class="w-100" (click)="showDataset(dataset)">
-              {{ dataset.headers.name }}
+          <div class="row dataset list-item" *ngFor="let dataset of datasets">
+            <button class="button-field w-100 h-100" (click)="showDataset(dataset)">
+              <div class=" w-100"> {{ dataset.headers.name }}</div>
             </button>
           </div>
         </div>
       </div>
-
-
     </div>
-
-    <div class="col-md-9" style="height: 100vh;">
-      <div class="row" style="height: 10vh">
-        <div class="col-md-4">
-          name: <input [(ngModel)]="currentResource.headers.name">
-        </div>
-        <div class="col-md-4">
-          type: <input [(ngModel)]="currentResource.headers.type">
-        </div>
-        <div class="col-md-4">
-          base: <input [(ngModel)]="currentResource.headers.base">
+    <div class="right-section col-md-9" style="height: 100vh;">
+      <div class="row" style="height: 20vh; ">
+        <div class="col">
+          <div class="row" style="height: 6vh">
+            <div class="col-md-4">
+              <input class="input-field w-100" [(ngModel)]="currentResource.headers.name" placeholder="name">
+            </div>
+            <div class="col-md-4">
+              <input class="input-field w-100" [(ngModel)]="currentResource.headers.type" placeholder="type">
+            </div>
+            <div class="col-md-4">
+              <input class="input-field w-100" [(ngModel)]="currentResource.headers.base" placeholder="base">
+            </div>
+          </div>
+          <div class="row" style="height: 6vh">
+            <div class="col-md-6">
+              <input class="input-field w-100" [(ngModel)]="currentResource.headers.id_resource"
+                placeholder="id_resource">
+            </div>
+            <div class="col-md-6">
+              <input class="input-field w-100" [(ngModel)]="currentResource.headers.id_pattern"
+                placeholder="id_pattern">
+            </div>
+          </div>
+          <div class="row" style="height: 6vh;">
+            <div class="col-md-3">
+              <button class="button-field w-100 h-100" (click)="testResource(currentResource)">Test</button>
+            </div>
+            <div class="col-md-3">
+              <button class="button-field w-100 h-100" (click)="generateResource(currentResource)">Generate</button>
+            </div>
+            <div class="col-md-6">
+              <div class="label-field">
+                Data Count: {{ dataDumpInfo.count }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row" style="height: 10vh">
-        <div class="col-md-6">
-          id_resource: <input [(ngModel)]="currentResource.headers.id_resource" style="width: 20vw; ">
-        </div>
-        <div class="col-md-6">
-          id_pattern: <input [(ngModel)]="currentResource.headers.id_pattern" style="width: 20vw; ">
-        </div>
-      </div>
 
-      <div class="row" style="height: 60vh">
+
+      <div class="row" style="height: 70vh; overflow: auto;">
+        <div class="col">
+          <div class="row" style="height: 30vh">
+            <div class="col">
+              <div class="row" style="height: 6vh; ">
+                <div class="col-md-6">
+                  <input class="input-field w-100" [(ngModel)]="newGetter.name" placeholder="name">
+                </div>
+                <div class="col-md-6">
+                  <input class="input-field w-100" [(ngModel)]="newGetter.xpath" placeholder="xpath">
+                </div>
+              </div>
+              <div class="row" style="height: 6vh; ">
+                <div class="col-md-6">
+                  <input class="input-field w-100" [(ngModel)]="newGetter.select" placeholder="select">
+                </div>
+                <div class="col-md-6">
+                  <input class="input-field w-50" [(ngModel)]="newGetter.replace[0]" placeholder="replace pattern">
+                  <input class="input-field w-50" [(ngModel)]="newGetter.replace[1]" placeholder="replacement pattern">
+                </div>
+              </div>
+              <div class="row" style="height: 6vh; ">
+                <div class="col-md-6">
+                  <button class="button-field w-100 h-100" (click)="newResource()">Test</button>
+                </div>
+                <div class="col-md-6">
+                  <button class="button-field w-100 h-100" (click)="newResource()">Add</button>
+                </div>
+              </div>
+              <div class="row" style="height: 20vh; padding: 10px;"
+                *ngFor="let getter of currentResource.getters | keyvalue">
+                <div class="col">
+                  <div class="row" style="height: 6vh; ">
+                    <div class="col-md-6">
+                      <input class="input-field w-100" [(ngModel)]="getter.key" placeholder="name">
+                    </div>
+                    <div class="col-md-6">
+                      <input class="input-field w-100" [(ngModel)]="getter.value.xpath" placeholder="xpath">
+                    </div>
+                  </div>
+                  <div class="row" style="height: 6vh; ">
+                    <div class="col-md-6">
+                      <input class="input-field w-100" [(ngModel)]="getter.value.select" placeholder="select">
+                    </div>
+                    <div class="col-md-6">
+                      <input class="input-field w-50" [(ngModel)]="getter.value.replace[0]"
+                        placeholder="replace pattern">
+                      <input class="input-field w-50" [(ngModel)]="getter.value.replace[1]"
+                        placeholder="replacement pattern">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-
   </div>
 </div>

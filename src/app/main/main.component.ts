@@ -3,6 +3,7 @@ import { Dataset } from '../_models/Dataset';
 import { Resource } from '../_models/Resource';
 import { DatasetService } from '../_services/dataset.service';
 import { ResourceService } from '../_services/resource.service';
+import { ResourceDataDumpResponse } from '../_models/ResourceDataDumpResponse';
 
 @Component({
   selector: 'app-main',
@@ -15,17 +16,55 @@ export class MainComponent implements OnInit {
   datasets: Dataset[] = [];
   currentResource: Resource;
   currentDataset: Dataset;
+  dataDumpInfo = {
+    count: -1
+  };
+  testStatus: string;
 
+  newGetter = {
+    name: '',
+    xpath: '',
+    select: '',
+    replace: ['', '']
+  };
   constructor(
     private resourceService: ResourceService,
     private datasetService: DatasetService
   ) { }
 
   ngOnInit() {
-    this.currentResource = new Resource();
-    this.currentDataset = new Dataset();
+    this.newResource();
     this.updateResources();
     this.updateDataset();
+    // setInterval(() => { this.dataDumpResource(this.currentResource); }, 1000);
+  }
+
+  testResource(resource: Resource) {
+    this.resourceService.resourceTest(resource).subscribe((body) => {
+      if (body.ok) {
+        this.testStatus = body.status;
+      } else {
+        console.log(body);
+      }
+    });
+  }
+
+  dataDumpResource(resource: Resource) {
+    this.resourceService.resourceDataDump(resource).subscribe((body) => {
+      if (body.ok) {
+        this.dataDumpInfo = body.info;
+      } else {
+        console.log(body);
+      }
+    });
+  }
+
+  newDataset() {
+    this.currentDataset = new Dataset();
+  }
+
+  newResource() {
+    this.currentResource = new Resource();
   }
 
   updateResources() {
