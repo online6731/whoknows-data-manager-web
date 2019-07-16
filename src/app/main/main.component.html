@@ -1,131 +1,53 @@
 <div class="main container-fluid w-100 h-100" style="overflow: hidden;">
   <div class="row" style="height: 100vh; width: 100vw;">
-    <div class="left-section col-md-3" style="height: 100vh; ">
-      <div class="row" style="height: 50vh; overflow: auto;">
+    <div class="left-section col-3" style="height: 100vh;">
+      <div class="row" style="height: 30vh; overflow: auto;">
         <div class="col">
-          <div class="row list-item">
-            <input class="input-field question w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
-            <button class="button-field w-25" (click)="newResource()">new</button>
+          <div class="row list-bar">
+            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
+            <button class="w-25" (click)="show('resource')">
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
           <div class="row list-item" *ngFor="let resource of resources">
-            <button class="button-field w-100 h-100" (click)="showResource(resource)">
-              <div class="w-100"> {{ resource.headers.name }}</div>
+            <button class="w-100 h-100" (click)="show('resource', resource)">{{resource.headers.name}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="height: 30vh; overflow: auto">
+        <div class="col">
+          <div class="row list-bar">
+            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
+            <button class="w-25" (click)="show('dataset')">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="row dataset list-item" *ngFor="let dataset of datasets">
+            <button class="w-100 h-100" (click)="show('dataset', dataset)">
+              <div class=" w-100"> {{ dataset.headers.name }} </div>
             </button>
           </div>
         </div>
       </div>
-      <div class="row" style="height: 50vh; overflow: auto">
+      <div class="row" style="height: 30vh; overflow: auto">
         <div class="col">
-          <div class="row list-item">
-            <input class="input-field w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
-            <button class="button-field w-25" (click)="newDataset()">new</button>
+          <div class="row list-bar">
+            <input class="w-100" placeholder="Search" [(ngModel)]="searchQueryData" />
           </div>
-          <div class="row dataset list-item" *ngFor="let dataset of datasets">
-            <button class="button-field w-100 h-100" (click)="showDataset(dataset)">
-              <div class=" w-100"> {{ dataset.headers.name }}</div>
+          <div class="row dataset list-item" *ngFor="let data of datas">
+            <button class="w-100 h-100" (click)="show('data', data)">
+              <div class=" w-75" style="float: left" [innerHTML]="data.name"></div>
+              <div class=" w-25" style="float: right" [innerHTML]="data.count"></div>
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="right-section col-md-9" style="height: 100vh;">
-      <div class="row" style="height: 20vh; ">
-        <div class="col">
-          <div class="row" style="height: 6vh">
-            <div class="col-md-4">
-              <input class="input-field w-100" [(ngModel)]="currentResource.headers.name" placeholder="name">
-            </div>
-            <div class="col-md-4">
-              <input class="input-field w-100" [(ngModel)]="currentResource.headers.type" placeholder="type">
-            </div>
-            <div class="col-md-4">
-              <input class="input-field w-100" [(ngModel)]="currentResource.headers.base" placeholder="base">
-            </div>
-          </div>
-          <div class="row" style="height: 6vh">
-            <div class="col-md-6">
-              <input class="input-field w-100" [(ngModel)]="currentResource.headers.id_resource"
-                placeholder="id_resource">
-            </div>
-            <div class="col-md-6">
-              <input class="input-field w-100" [(ngModel)]="currentResource.headers.id_pattern"
-                placeholder="id_pattern">
-            </div>
-          </div>
-          <div class="row" style="height: 6vh;">
-            <div class="col-md-3">
-              <button class="button-field w-100 h-100" (click)="testResource(currentResource)">Test</button>
-            </div>
-            <div class="col-md-3">
-              <button class="button-field w-100 h-100" (click)="generateResource(currentResource)">Generate</button>
-            </div>
-            <div class="col-md-6">
-              <div class="label-field">
-                Data Count: {{ dataDumpInfo.count }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row" style="height: 70vh; overflow: auto;">
-        <div class="col">
-          <div class="row" style="height: 30vh">
-            <div class="col">
-              <div class="row" style="height: 6vh; ">
-                <div class="col-md-6">
-                  <input class="input-field w-100" [(ngModel)]="newGetter.name" placeholder="name">
-                </div>
-                <div class="col-md-6">
-                  <input class="input-field w-100" [(ngModel)]="newGetter.xpath" placeholder="xpath">
-                </div>
-              </div>
-              <div class="row" style="height: 6vh; ">
-                <div class="col-md-6">
-                  <input class="input-field w-100" [(ngModel)]="newGetter.select" placeholder="select">
-                </div>
-                <div class="col-md-6">
-                  <input class="input-field w-50" [(ngModel)]="newGetter.replace[0]" placeholder="replace pattern">
-                  <input class="input-field w-50" [(ngModel)]="newGetter.replace[1]" placeholder="replacement pattern">
-                </div>
-              </div>
-              <div class="row" style="height: 6vh; ">
-                <div class="col-md-6">
-                  <button class="button-field w-100 h-100" (click)="newResource()">Test</button>
-                </div>
-                <div class="col-md-6">
-                  <button class="button-field w-100 h-100" (click)="newResource()">Add</button>
-                </div>
-              </div>
-              <div class="row" style="height: 20vh; padding: 10px;"
-                *ngFor="let getter of currentResource.getters | keyvalue">
-                <div class="col">
-                  <div class="row" style="height: 6vh; ">
-                    <div class="col-md-6">
-                      <input class="input-field w-100" [(ngModel)]="getter.key" placeholder="name">
-                    </div>
-                    <div class="col-md-6">
-                      <input class="input-field w-100" [(ngModel)]="getter.value.xpath" placeholder="xpath">
-                    </div>
-                  </div>
-                  <div class="row" style="height: 6vh; ">
-                    <div class="col-md-6">
-                      <input class="input-field w-100" [(ngModel)]="getter.value.select" placeholder="select">
-                    </div>
-                    <div class="col-md-6">
-                      <input class="input-field w-50" [(ngModel)]="getter.value.replace[0]"
-                        placeholder="replace pattern">
-                      <input class="input-field w-50" [(ngModel)]="getter.value.replace[1]"
-                        placeholder="replacement pattern">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="right-section col-9" style="height: 100vh;">
+      <div class="row w-100 header"> {{ showingItemType }} editor</div>
+      <app-resource [resource]="showingItem" *ngIf="showingItemType == 'resource'"></app-resource>
+      <app-dataset [dataset]="showingItem" *ngIf="showingItemType == 'dataset'"></app-dataset>
+      <app-data [data]="showingItem" *ngIf="showingItemType == 'data'"></app-data>
     </div>
   </div>
 </div>

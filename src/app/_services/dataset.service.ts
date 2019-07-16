@@ -1,19 +1,33 @@
-import { Injectable } from '@angular/core';
-import { DatasetFindResponse } from '../_models/DatasetFindResponse';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { DatasetFindResponse } from "../_models/DatasetFindResponse";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Resource } from "../_models/Resource";
+import { DatasetTestResponse } from "../_models/DatasetTestResponse";
+import { Dataset } from "../_models/Dataset";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DatasetService {
+  constructor(private http: HttpClient) { }
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  datasetFind(compact: boolean = false, condition: any = {}): Observable<DatasetFindResponse> {
-    return this.http.post<DatasetFindResponse>(`https://whoknows-data-manager-server.liara.run/dataset/find`, { compact, condition });
+  datasetFind(
+    option: { compact: boolean; condition: any } = {
+      compact: false,
+      condition: {}
+    }
+  ): Observable<DatasetFindResponse> {
+    return this.http.post<DatasetFindResponse>(
+      `http://dms.whoknows.ir/dataset/find`,
+      { compact: option.compact, condition: option.condition }
+    );
   }
 
+  datasetTest(dataset: Dataset): Observable<DatasetTestResponse> {
+    return this.http.post<DatasetTestResponse>(
+      `http://dms.whoknows.ir/dataset/test`,
+      { dataset }
+    );
+  }
 }

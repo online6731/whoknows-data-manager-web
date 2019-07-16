@@ -1,0 +1,99 @@
+<div class="row" style="height: 15vh; overflow: auto;">
+  <div class="col">
+    <div class="row" style="height: 6vh; ">
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="resource.headers.name" placeholder="name">
+      </div>
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="resource.headers.type" placeholder="type">
+      </div>
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="resource.headers.dataset" placeholder="dataset">
+      </div>
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="resource.headers.base" placeholder="base">
+      </div>
+    </div>
+    <div class="row" style="height: 6vh; ">
+      <div class="col-6">
+        <input class="w-100" [(ngModel)]="resource.headers.id_resource" placeholder="id_resource">
+      </div>
+      <div class="col-6">
+        <input class="w-100" [(ngModel)]="resource.headers.id_pattern" placeholder="id_pattern">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="height: 20vh;">
+  <div class="col">
+    <div class="row" style="height: 6vh; ">
+      <div class="col-6">
+        <input class="w-100" [(ngModel)]="newGetterName" placeholder="name">
+      </div>
+      <div class="col-6">
+        <input class="w-100" [(ngModel)]="newGetterXpath" placeholder="xpath">
+      </div>
+    </div>
+    <div class="row" style="height: 6vh; ">
+      <div class="col-6">
+        <input class="w-100" [(ngModel)]="newGetterSelect" placeholder="select">
+      </div>
+      <div class="col-6">
+        <input class="w-50" [(ngModel)]="newGetterReplacePattern" placeholder="replace pattern">
+        <input class="w-50" [(ngModel)]="newGetterReplacementPattern" placeholder="replacement pattern">
+      </div>
+    </div>
+    <div class="row" style="height: 6vh; ">
+      <div class="col-6">
+        <button class="w-100 h-100">Test</button>
+      </div>
+      <div class="col-6">
+        <button class="w-100 h-100" style="padding: 7px"
+          (click)="addGetter(newGetterName, newGetterXpath, newGetterSelect, [newGetterReplacePattern, newGetterReplacementPattern])">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="height: 40vh; overflow: auto; ">
+  <div class="col">
+    <div class="row" style="height: 30vh">
+      <div class="col">
+        <div class="row" style="height: 20vh; padding-bottom: 10px;" *ngFor="let getter of resource.getters | keyvalue">
+          <div class="col">
+            <div class="row" style="height: 6vh; ">
+              <div class="col-6">
+                <input class="w-100" [(ngModel)]="getter.key" placeholder="name">
+              </div>
+              <div class="col-6">
+                <input class="w-100" [(ngModel)]="getter.value.xpath" placeholder="xpath">
+              </div>
+            </div>
+            <div class="row" style="height: 6vh; ">
+              <div class="col-6">
+                <input class="w-100" [(ngModel)]="getter.value.select" placeholder="select">
+              </div>
+              <div class="col-6">
+                <input class="w-50" [(ngModel)]="getter.value.replace[0]" placeholder="replace pattern">
+                <input class="w-50" [(ngModel)]="getter.value.replace[1]" placeholder="replacement pattern">
+              </div>
+            </div>
+            <div class="row" style="height: 6vh; ">
+              <div class="col-6">
+                <button class="w-100 h-100">Test</button>
+              </div>
+              <div class="col-6">
+                <button class="w-100 h-100" (click)="deleteGetter(getter.key)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="height: 10vh;">
+  <div class="col-12">
+    <button class="w-100 h-100" (click)="testResource(resource)">Test</button>
+  </div>
+</div>

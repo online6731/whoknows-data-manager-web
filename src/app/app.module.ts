@@ -12,11 +12,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { AppRoutingModule } from './app-routing.module';
+import { DatasetComponent } from './dataset/dataset.component';
+import { DataComponent } from './data/data.component';
+import { ResourceComponent } from './resource/resource.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    DatasetComponent,
+    DataComponent,
+    ResourceComponent
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Dataset } from '../_models/Dataset';
 import { Resource } from '../_models/Resource';
 import { DatasetService } from '../_services/dataset.service';
+import { DataService } from '../_services/data.service';
 import { ResourceService } from '../_services/resource.service';
-import { ResourceDataDumpResponse } from '../_models/ResourceDataDumpResponse';
+import { Data } from '../_models/Data';
 
 @Component({
   selector: 'app-main',
@@ -14,12 +15,10 @@ export class MainComponent implements OnInit {
 
   resources: Resource[] = [];
   datasets: Dataset[] = [];
-  currentResource: Resource;
-  currentDataset: Dataset;
-  dataDumpInfo = {
-    count: -1
-  };
+  datas: Data[] = [];
   testStatus: string;
+  showingItem: Data | Dataset | Resource;
+  showingItemType: string;
 
   newGetter = {
     name: '',
@@ -27,16 +26,18 @@ export class MainComponent implements OnInit {
     select: '',
     replace: ['', '']
   };
+
   constructor(
     private resourceService: ResourceService,
-    private datasetService: DatasetService
+    private datasetService: DatasetService,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
-    this.newResource();
+    this.show('resource');
     this.updateResources();
     this.updateDataset();
-    // setInterval(() => { this.dataDumpResource(this.currentResource); }, 1000);
+    this.updateData();
   }
 
   testResource(resource: Resource) {
@@ -47,24 +48,6 @@ export class MainComponent implements OnInit {
         console.log(body);
       }
     });
-  }
-
-  dataDumpResource(resource: Resource) {
-    this.resourceService.resourceDataDump(resource).subscribe((body) => {
-      if (body.ok) {
-        this.dataDumpInfo = body.info;
-      } else {
-        console.log(body);
-      }
-    });
-  }
-
-  newDataset() {
-    this.currentDataset = new Dataset();
-  }
-
-  newResource() {
-    this.currentResource = new Resource();
   }
 
   updateResources() {
@@ -87,13 +70,23 @@ export class MainComponent implements OnInit {
     });
   }
 
-  showDataset(dataset: Dataset) {
-    this.currentDataset = dataset;
-    this.currentResource = null;
+  updateData() {
+    this.dataService.dataFind(false).subscribe((body) => {
+      if (body.ok) {
+        this.datas = body.datas;
+      } else {
+        console.log(body);
+      }
+      this.updateData();
+    });
   }
 
-  showResource(resource: Resource) {
-    this.currentDataset = null;
-    this.currentResource = resource;
+  show(type: string, item: Data | Dataset | Resource = null) {
+    if (item == null) {
+      item = type === 'data' ? new Data() : type === 'dataset' ? new Dataset() : new Resource();
+    }
+    this.showingItem = item;
+    this.showingItemType = type;
   }
+
 }

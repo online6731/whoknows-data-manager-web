@@ -15,7 +15,7 @@ export class Resource {
     id_resource: '',
     id_pattern: '',
   };
-  getters: {};
+  getters: {} = {};
   // getters: {
   //   name: string;
   //   xpath: string;
