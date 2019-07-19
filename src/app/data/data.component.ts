@@ -8,7 +8,6 @@ import { Data } from '../_models/Data';
 })
 export class DataComponent implements OnInit {
 
-  @Input()dataName: string;
   @Input()data: Data;
 
   constructor() { }

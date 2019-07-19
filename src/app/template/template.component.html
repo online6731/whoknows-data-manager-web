@@ -1,0 +1,112 @@
+<mat-form-field style="width: 100%; color: white">
+  <input matInput [(ngModel)]="template['__idea']" [placeholder]="Idea" />
+</mat-form-field>
+
+<mat-form-field class="w-100">
+  <mat-chip-list #DatasetChipList>
+    <mat-chip *ngFor="let dataset of template['datasets']" [selectable]="true" [removable]="true"
+      (removed)="removeDataset(dataset)">
+      {{dataset.headers.name}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="Datasets" #datasetInput [formControl]="datasetCtrl" [matAutocomplete]="auto"
+      [matChipInputFor]="DatasetChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addDataset($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedDataset($event)">
+    <mat-option *ngFor="let dataset of filteredDatasets | async" [value]="dataset">
+      {{dataset}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+
+<mat-form-field class="w-100">
+  <mat-chip-list #TagChipList>
+    <mat-chip *ngFor="let tag of template['tags']" [selectable]="true" [removable]="true" (removed)="removeTag(tag)">
+      {{tag.title}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="Tags" #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+      (matChipInputTokenEnd)="addTag($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedTag($event)">
+    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+      {{tag}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<div class="row w-100">
+  <div style="width: 20%; text-align: center;"> new value </div>
+  <input placeholder="new key" [(ngModel)]="newValueKey" style="width: 25%; text-align: center;" />
+  <input placeholder="new query" [(ngModel)]="newValueQuery" style="width: 45%" />
+  <div style="width: 10%"> <button (click)="addValue(newValueKey, newValueQuery); newValueKey=''; newValueQuery='';">
+      <mat-icon> add </mat-icon>
+    </button> </div>
+</div>
+
+<div class="row w-100" *ngFor="let item of template.values | keyvalue">
+  <div style="width: 20%; text-align: center;"> value </div>
+  <input [(ngModel)]="item.key" style="width: 25%; text-align: center;" />
+  <input [(ngModel)]="item.value" style="width: 45%" />
+  <div style="width: 10%;"> <button (click)="removeValue(item.key)">
+      <mat-icon> remove </mat-icon>
+    </button> </div>
+</div>
+
+<div class="row">
+  <div class="col-2">
+    <div style="display: block; text-align: center; margin-top: 50% "> field </div>
+  </div>
+  <div class="col-9">
+    <div class="row">
+      <input placeholder="type" [(ngModel)]="currentType" style="width: 25%; text-align: center;" />
+      <input placeholder="section" [(ngModel)]="currentSection" style="width: 25%; text-align: center;" />
+      <input placeholder="format" [(ngModel)]="currentFormat" style="width: 25%; text-align: center;" />
+      <input placeholder="language" [(ngModel)]="currentLanguage" style="width: 25%; text-align: center;" />
+    </div>
+    <div class="row">
+      <input placeholder="content" [(ngModel)]="currentContent" style="width: 100%;" />
+    </div>
+  </div>
+  <div class="col-1">
+    <button (click)="removeValue(item.key)" class="w-100 h-100">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="row" *ngFor="let field of fields">
+  <div class="col-2">
+    <div style="display: block; text-align: center; margin-top: 50% "> field </div>
+  </div>
+  <div class="col-9">
+    <div class="row">
+      <input placeholder="type" [(ngModel)]="field.type" style="width: 25%; text-align: left;" />
+      <input placeholder="section" [(ngModel)]="field.section" style="width: 25%; text-align: left;" />
+      <input placeholder="format" [(ngModel)]="field.format" style="width: 25%; text-align: left;" />
+      <input placeholder="language" [(ngModel)]="field.language" style="width: 25%; text-align: left;" />
+    </div>
+    <div class="row">
+      <input placeholder="content" [(ngModel)]="field.content" style="width: 100%;" dir="auto" />
+    </div>
+  </div>
+  <div class="col-1">
+    <button class="w-100 h-100">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="row" style="height: 75px; ">
+      <button mat-button class="col-1" (click)="testTemplate(template)">
+        RUN
+      </button>
+    </div>
+    <div class="row"></div>
+  </div>
+</div>

@@ -5,6 +5,8 @@ import { DatasetService } from '../_services/dataset.service';
 import { DataService } from '../_services/data.service';
 import { ResourceService } from '../_services/resource.service';
 import { Data } from '../_models/Data';
+import { TemplateService } from '../_services/template.service';
+import { Template } from '../_models/Template';
 
 @Component({
   selector: 'app-main',
@@ -16,8 +18,9 @@ export class MainComponent implements OnInit {
   resources: Resource[] = [];
   datasets: Dataset[] = [];
   datas: Data[] = [];
+  templates: Template[] = [];
   testStatus: string;
-  showingItem: Data | Dataset | Resource;
+  showingItem: Data | Dataset | Resource | Template;
   showingItemType: string;
 
   newGetter = {
@@ -30,24 +33,16 @@ export class MainComponent implements OnInit {
   constructor(
     private resourceService: ResourceService,
     private datasetService: DatasetService,
-    private dataService: DataService
+    private dataService: DataService,
+    private templateService: TemplateService
   ) { }
 
   ngOnInit() {
     this.show('resource');
     this.updateResources();
-    this.updateDataset();
-    this.updateData();
-  }
-
-  testResource(resource: Resource) {
-    this.resourceService.resourceTest(resource).subscribe((body) => {
-      if (body.ok) {
-        this.testStatus = body.status;
-      } else {
-        console.log(body);
-      }
-    });
+    this.updateDatasets();
+    this.updateDatas();
+    this.updateTemplates();
   }
 
   updateResources() {
@@ -57,31 +52,46 @@ export class MainComponent implements OnInit {
       } else {
         console.log(body);
       }
+      this.updateResources();
     });
   }
 
-  updateDataset() {
+  updateDatasets() {
     this.datasetService.datasetFind().subscribe((body) => {
       if (body.ok) {
         this.datasets = body.datasets;
       } else {
         console.log(body);
       }
+      this.updateDatasets();
     });
   }
 
-  updateData() {
+  updateDatas() {
     this.dataService.dataFind(false).subscribe((body) => {
       if (body.ok) {
         this.datas = body.datas;
       } else {
         console.log(body);
       }
-      this.updateData();
+      this.updateDatas();
     });
   }
 
-  show(type: string, item: Data | Dataset | Resource = null) {
+  updateTemplates() {
+    this.templateService.templateFind().subscribe((body) => {
+      if (body.ok) {
+        this.templates = body.templates;
+      } else {
+        console.log(body);
+      }
+      // this.show('template', this.templates[0]);
+      // this.updateTemplates();
+    });
+
+  }
+
+  show(type: string, item: Data | Dataset | Resource | Template = null) {
     if (item == null) {
       item = type === 'data' ? new Data() : type === 'dataset' ? new Dataset() : new Resource();
     }

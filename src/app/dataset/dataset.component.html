@@ -1,58 +1,179 @@
-<div class="row" style="height: 20vh; ">
-  <div class="col">
-    <div class="row" style="height: 6vh">
-      <div class="col-3">
-        <input class="input-field w-100" [(ngModel)]="dataset.headers.name" placeholder="name">
-      </div>
-    </div>
-    <div class="row" style="height: 6vh;">
-      <div class="col-3">
-        <button class="button-field w-100 h-100" (click)="testDataset(dataset)">Test</button>
-      </div>
-    </div>
+<div
+  class="row"
+  *ngFor="let metadata of ['__idea', 'datasets', 'tags', 'usage']"
+>
+  <input
+    [(ngModel)]="metadata"
+    [disabled]="true"
+    style="width: 15%; text-align: center;"
+  />
+  <input
+    matInput
+    [(ngModel)]="workingTemplate[metadata]"
+    style="width: 85%; text-align: left;"
+  />
+</div>
+
+<div class="row w-100">
+  <input
+    [disabled]="true"
+    value="Values"
+    style="width: 15%; text-align: center;"
+  />
+  <input
+    placeholder="new key"
+    [(ngModel)]="newValueKey"
+    style="width: 15%; text-align: center;"
+  />
+  <input
+    placeholder="new query"
+    [(ngModel)]="newValueQuery"
+    style="width: 55%"
+  />
+  <div style="width: 10%">
+    <button
+      (click)="
+        addValue(newValueKey, newValueQuery);
+        newValueKey = '';
+        newValueQuery = ''
+      "
+    >
+      add
+    </button>
   </div>
 </div>
-<div class="row" style="height: 70vh; overflow: auto;">
-  <div class="col">
-    <div class="row" style="height: 30vh">
-      <div class="col">
-        <div class="row" style="height: 6vh; ">
-          <div class="col-6">
-            <input class="input-field w-100" [(ngModel)]="newFieldName" placeholder="name">
-          </div>
-          <div class="col-6">
-            <input class="input-field w-100" [(ngModel)]="newFieldPattern" placeholder="pattern">
-          </div>
-        </div>
-        <div class="row" style="height: 6vh; ">
-          <div class="col-6">
-            <button class="button-field w-100 h-100">Test</button>
-          </div>
-          <div class="col-6">
-            <button class="button-field w-100 h-100" (click)="addField()">add</button>
-          </div>
-        </div>
-        <div class="row" style="height: 20vh; padding: 10px;" *ngFor="let field of dataset.fields | keyvalue">
-          <div class="col">
-            <div class="row" style="height: 6vh; ">
-              <div class="col-6">
-                <input class="input-field w-100" [(ngModel)]="field.name" placeholder="name">
-              </div>
-              <div class="col-6">
-                <input class="input-field w-100" [(ngModel)]="field.pattern" placeholder="pattern">
-              </div>
-            </div>
-            <div class="row" style="height: 6vh; ">
-              <div class="col-6">
-                <button class="button-field w-100 h-100">Test</button>
-              </div>
-              <div class="col-6">
-                <button class="button-field w-100 h-100">Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+<div class="row w-100" *ngFor="let item of workingTemplate.values | keyvalue">
+  <input
+    [disabled]="true"
+    value="Values"
+    style="width: 15%; text-align: center;"
+  />
+  <input [(ngModel)]="item.key" style="width: 15%; text-align: center;" />
+  <input [(ngModel)]="item.value" style="width: 60%" />
+  <div style="width: 10%;">
+    <button (click)="removeValue(item.key)">remove</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <input
+      class="w-100 h-100"
+      value="field"
+      [disabled]="true"
+      style="text-align: center;"
+    />
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <input
+        placeholder="type"
+        [(ngModel)]="currentType"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="section"
+        [(ngModel)]="currentSection"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="format"
+        [(ngModel)]="currentFormat"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="language"
+        [(ngModel)]="currentLanguage"
+        style="width: 10%; text-align: center;"
+      />
     </div>
+    <div class="row">
+      <input
+        placeholder="content"
+        [(ngModel)]="currentContent"
+        style="width: 100%;"
+      />
+    </div>
+  </div>
+  <div class="col-md-1">
+    <button (click)="removeValue(item.key)" class="w-100 h-100">add</button>
+  </div>
+</div>
+
+<div class="row" *ngFor="let field of currentFields">
+  <div class="col-md-2">
+    <input
+      class="w-100 h-100"
+      value="field"
+      [disabled]="true"
+      style="text-align: center;"
+    />
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <input
+        placeholder="type"
+        [(ngModel)]="field.type"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="section"
+        [(ngModel)]="field.section"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="format"
+        [(ngModel)]="field.format"
+        style="width: 10%; text-align: center;"
+      />
+      <input
+        placeholder="language"
+        [(ngModel)]="field.language"
+        style="width: 10%; text-align: center;"
+      />
+    </div>
+    <div class="row">
+      <input
+        placeholder="content"
+        [(ngModel)]="field.content"
+        style="width: 100%;"
+      />
+    </div>
+  </div>
+  <div class="col-md-1">
+    <button class="w-100 h-100">remove</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row" style="height: 75px; ">
+      <button
+        mat-button
+        class="col-md-1"
+        (click)="testTemplate(workingTemplate)"
+      >
+        RUN
+      </button>
+      <!--div class="col-md-1">
+                              <div class="row">
+                                  <span class="badge badge-success"> {{workingTemplate.__state}} </span>
+
+                                  <button type="button" class="btn btn-danger">
+                                      Problems <span class="badge badge-light"> {{workingTemplate.__test_info.problems.length}} </span>
+                                      <span class="sr-only">Problems</span>
+                                    </button>
+
+                              </div>
+
+                          </div>
+                          <div class="col-md-8">
+                              <div class="row" *ngFor="let problem of workingTemplate.__test_info.problems">
+                                  {{problem}}
+                              </div>
+                          </div-->
+    </div>
+    <div class="row"></div>
   </div>
 </div>

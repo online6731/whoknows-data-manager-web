@@ -2,23 +2,30 @@
   <div class="col">
     <div class="row" style="height: 6vh">
       <div class="col-3">
-        <input class="input-field w-100" [(ngModel)]="data.name" placeholder="name">
+        <input class="w-100" [(ngModel)]="data.name" placeholder="name" />
       </div>
       <div class="col-3">
-        <input class="input-field w-100" [(ngModel)]="data.count" placeholder="count">
+        <input class="w-100" [(ngModel)]="data.count" placeholder="count" disabled="true" />
+      </div>
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="data.count" placeholder="count" disabled="true" />
+      </div>
+      <div class="col-3">
+        <input class="w-100" [(ngModel)]="data.count" placeholder="count" disabled="true" />
       </div>
     </div>
     <div class="row" style="height: 6vh;">
-      <div class="col-3">
-        <button class="button-field w-100 h-100" (click)="testData(data)">Test</button>
+      <div class="col-12">
+        <button class="w-100 h-100" (click)="testData(data)">Test</button>
       </div>
     </div>
   </div>
 </div>
+
 <div class="row" style="height: 70vh; overflow: auto;">
   <div class="col">
-    <div class="row" style="height: 30vh">
-
+    <div class="row" style="height: 10vh" *ngFor="let data_item of data.data_items">
+      <input [placeholder]="_id" [(ngModel)]="data_item._id.$oid">
     </div>
   </div>
 </div>

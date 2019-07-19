@@ -1,50 +1,91 @@
-<div class="main container-fluid w-100 h-100" style="overflow: hidden;">
+<div class="main container-fluid w-100 h-1000" style="overflow: hidden">
   <div class="row" style="height: 100vh; width: 100vw;">
     <div class="left-section col-3" style="height: 100vh;">
-      <div class="row" style="height: 30vh; overflow: auto;">
+      <div class="row" style="height: 20vh;">
         <div class="col">
-          <div class="row list-bar">
-            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryResource" />
+          <div class="row search-bar">
+            <input class="w-75" placeholder="Search Resources" [(ngModel)]="searchQueryResource" />
             <button class="w-25" (click)="show('resource')">
               <mat-icon>add</mat-icon>
             </button>
           </div>
-          <div class="row list-item" *ngFor="let resource of resources">
-            <button class="w-100 h-100" (click)="show('resource', resource)">{{resource.headers.name}}</button>
+
+          <div class="row list">
+            <div class="col">
+              <div class="row list-item" *ngFor="let resource of resources">
+                <button class="w-100 h-100" (click)="show('resource', resource)">
+                  <div class=" w-100" [innerHTML]="resource.headers.name"></div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row" style="height: 30vh; overflow: auto">
+      <div class="row" style="height: 20vh;">
         <div class="col">
-          <div class="row list-bar">
-            <input class="w-75" placeholder="Search" [(ngModel)]="searchQueryDataset" />
+          <div class="row search-bar">
+            <input class="w-75" placeholder="Search Datasets" [(ngModel)]="searchQueryData" />
             <button class="w-25" (click)="show('dataset')">
               <mat-icon>add</mat-icon>
             </button>
           </div>
-          <div class="row dataset list-item" *ngFor="let dataset of datasets">
-            <button class="w-100 h-100" (click)="show('dataset', dataset)">
-              <div class=" w-100"> {{ dataset.headers.name }} </div>
-            </button>
+
+          <div class="row list">
+            <div class="col">
+              <div class="row list-item" *ngFor="let dataset of datasets">
+                <button class="w-100 h-100" (click)="show('dataset', dataset)">
+                  <div class=" w-100" [innerHTML]="dataset.headers.name"></div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row" style="height: 30vh; overflow: auto">
+      <div class="row" style="height: 20vh;">
         <div class="col">
-          <div class="row list-bar">
-            <input class="w-100" placeholder="Search" [(ngModel)]="searchQueryData" />
-          </div>
-          <div class="row dataset list-item" *ngFor="let data of datas">
-            <button class="w-100 h-100" (click)="show('data', data)">
-              <div class=" w-75" style="float: left" [innerHTML]="data.name"></div>
-              <div class=" w-25" style="float: right" [innerHTML]="data.count"></div>
+          <div class="row search-bar">
+            <input class="w-75" placeholder="Search Datas" [(ngModel)]="searchQueryData" />
+            <button class="w-25" (click)="show('data')">
+              <mat-icon>add</mat-icon>
             </button>
+          </div>
+
+          <div class="row list">
+            <div class="col">
+              <div class="row dataset list-item" *ngFor="let data of datas">
+                <button class="w-100 h-100" (click)="show('data', data)">
+                  <div class=" w-75" style="float: left" [innerHTML]="data.name"></div>
+                  <div class=" w-25" style="float: right" [innerHTML]="data.count"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row" style="height: 20vh">
+        <div class="col">
+          <div class="row search-bar">
+            <input class="w-75" placeholder="Search Templates" [(ngModel)]="searchQueryTemplate" />
+            <button class="w-25" (click)="show('template')">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="row list">
+            <div class="col">
+              <div class="row list-item" *ngFor="let template of templates">
+                <button class="w-100 h-100" (click)="show('template', template)">
+                  <div class=" w-100">{{ template.__idea }}</div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="right-section col-9" style="height: 100vh;">
       <div class="row w-100 header"> {{ showingItemType }} editor</div>
+      <app-template [template]="showingItem" *ngIf="showingItemType == 'template'"></app-template>
       <app-resource [resource]="showingItem" *ngIf="showingItemType == 'resource'"></app-resource>
       <app-dataset [dataset]="showingItem" *ngIf="showingItemType == 'dataset'"></app-dataset>
       <app-data [data]="showingItem" *ngIf="showingItemType == 'data'"></app-data>
