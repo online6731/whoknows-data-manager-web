@@ -1,5 +1,8 @@
-<div class="main container-fluid w-100 h-1000" style="overflow: hidden">
-  <div class="row" style="height: 100vh; width: 100vw;">
+<div class="main container-fluid">
+  <div class="row">
+    <!-- <div class="col-1">
+
+    </div> -->
     <div class="left-section col-3" style="height: 100vh;">
       <div class="row" style="height: 20vh;">
         <div class="col">
@@ -85,7 +88,8 @@
     </div>
     <div class="right-section col-9" style="height: 100vh;">
       <div class="row w-100 header"> {{ showingItemType }} editor</div>
-      <app-template [template]="showingItem" *ngIf="showingItemType == 'template'"></app-template>
+      <app-template [template]="showingItem" *ngIf="showingItemType == 'template'">
+      </app-template>
       <app-resource [resource]="showingItem" *ngIf="showingItemType == 'resource'"></app-resource>
       <app-dataset [dataset]="showingItem" *ngIf="showingItemType == 'dataset'"></app-dataset>
       <app-data [data]="showingItem" *ngIf="showingItemType == 'data'"></app-data>

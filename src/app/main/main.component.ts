@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.show('resource');
+    this.show('template');
     this.updateResources();
     this.updateDatasets();
     this.updateDatas();
@@ -85,7 +85,7 @@ export class MainComponent implements OnInit {
       } else {
         console.log(body);
       }
-      // this.show('template', this.templates[0]);
+      this.show('template', this.templates[0]);
       // this.updateTemplates();
     });
 
@@ -93,7 +93,11 @@ export class MainComponent implements OnInit {
 
   show(type: string, item: Data | Dataset | Resource | Template = null) {
     if (item == null) {
-      item = type === 'data' ? new Data() : type === 'dataset' ? new Dataset() : new Resource();
+      item = type === 'data' ? new Data() :
+        type === 'dataset' ? new Dataset() :
+        type === 'resource' ? new Resource() :
+        type === 'template' ? new Template() :
+        null;
     }
     this.showingItem = item;
     this.showingItemType = type;

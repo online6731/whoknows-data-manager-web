@@ -10,37 +10,35 @@ class X {
 }
 
 export class Template {
-    _id: ObjectId = {
-        $oid: ''
-    };
+    _id: ObjectId;
     values: any = {};
     __idea: string = '';
-    '&choose': any = {
+    '&&choose': any = {
         title: X,
         subtitle: X,
         choice: X,
         answer: X,
     };
-    '&select': any = {
+    '&&select': any = {
         title: X,
         subtitle: X,
         choice: X,
         answer: X,
     };
-    '&write': any = {
+    '&&write': any = {
         title: X,
         subtitle: X,
         answer: X,
     };
-    '&bool': any = {
+    '&&bool': any = {
         title: X,
         subtitle: X
     };
-    tags: Tag[];
-    usage: string[];
-    'score_function': string;
-    'time_function': string;
-    '__state': string;
+    tags: Tag[] = [];
+    usage: string[] = [];
+    'score_function': string = '';
+    'time_function': string = '';
+    '__state': string = '';
     '__test_info': any;
-    '__datasets': Dataset[];
+    datasets: Dataset[] = [];
 }
