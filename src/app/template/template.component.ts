@@ -16,22 +16,8 @@ import { TagService } from '../_services/tag.service';
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.styl']
 })
+
 export class TemplateComponent implements OnInit {
-
-  @Input() template: Template;
-
-  fields = [];
-
-  allTags: Tag[] = [];
-  allDatasets: Dataset[] = [];
-  newField = {
-    type: '',
-    format: '',
-    section: '',
-    language: '',
-    content: ''
-  };
-
 
   constructor(
     private templateService: TemplateService,
@@ -40,15 +26,38 @@ export class TemplateComponent implements OnInit {
     private tagService: TagService
   ) { }
 
+  @Input() template: Template;
+
+  fields = [];
+
+  allTags: Tag[] = [];
+  allDatasets: Dataset[] = [];
+
+  problems: string[] = [];
+
+  newField = {
+    type: '',
+    format: '',
+    section: '',
+    language: '',
+    content: ''
+  };
+
   ngOnInit() {
-
-
     this.getAllDatasets();
     this.getAllTags();
   }
 
   ngOnChanges() {
     this.showTemplate();
+    console.log(this.template.__state);
+    this.problems = [];
+    Object.keys(this.template.__test_info).forEach(key => {
+      console.log(key);
+      this.problems = this.problems.concat(this.template.__test_info[key].problems);
+    });
+    console.log(this.problems);
+    console.log(this.template);
   }
 
   getAllDatasets() {
@@ -90,24 +99,6 @@ export class TemplateComponent implements OnInit {
     return this.fields;
   }
 
-  saveTemplate() {
-    this.fields.forEach((field) => {
-      if (!(field.type in this.template)) {
-        this.template[field.type] = {};
-      }
-      if (!(field.section in this.template[field.type])) {
-        this.template[field.type][field.section] = {};
-      }
-      if (!(field.format in this.template[field.type][field.section])) {
-        this.template[field.type][field.section][field.format] = [];
-      }
-
-      this.template[field.type][field.section][field.format].push(field.content);
-
-    });
-
-  }
-
   removeFromList(list: any[], value: any) {
     if (list.indexOf(value) !== -1) {
       list.splice(list.indexOf(value), 1);
@@ -119,12 +110,55 @@ export class TemplateComponent implements OnInit {
   }
 
   removeFromObject(object: any, key: any) {
-    delete object[key];
+    try {
+      delete object[key];
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   addToObject(object: any, key: any, value: any) {
     object[key] = value;
   }
 
+  addValueToTemplate(newField: any) {
+    if (!(newField.type in this.template)) {
+      this.template[newField.type] = {};
+    }
+    if (!(newField.section in this.template[newField.type])) {
+      this.template[newField.type][newField.section] = {};
+    }
 
+    if (!(newField.format in this.template[newField.type][newField.section])) {
+      this.template[newField.type][newField.section][newField.format] = [];
+    }
+
+    this.template[newField.type][newField.section][newField.format].push(newField.content);
+
+    newField.type = '';
+    newField.section = '';
+    newField.language = '';
+    newField.format = '';
+    newField.content = '';
+
+    this.ngOnChanges();
+  }
+
+  removeValueFromTemplate(newField: any) {
+    try {
+      delete this.template[newField.type][newField.section][newField.format];
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  testTemplate(template: Template) {
+    this.templateService.templateTest(template).subscribe((body) => {
+      if (body.ok === true) {
+        console.log(body);
+      } else {
+
+      }
+    });
+  }
 }

@@ -36,7 +36,8 @@
 
 <div class="row">
   <input style="width: 15%; text-align: center;" placeholder="new key" [(ngModel)]="newValueKey" />
-  <input placeholder="new query" [(ngModel)]="newValueQuery" style="width: 80%" />
+  <input placeholder="new query" [(ngModel)]="newValueQuery" style="width: 80%"
+    (keyup.enter)="addToObject(template.values, newValueKey, newValueQuery); newValueKey=''; newValueQuery='';" />
   <div style="width: 5%;">
     <button (click)="addToObject(template.values, newValueKey, newValueQuery); newValueKey=''; newValueQuery='';">
       <mat-icon> add </mat-icon>
@@ -64,11 +65,11 @@
     </div>
     <div class="row">
       <input placeholder="content" [(ngModel)]="newField.content" style="width: 100%; text-align: center"
-        (keyup.enter)="addToList(fields, newField)" />
+        (keyup.enter)="addValueToTemplate(newField)" />
     </div>
   </div>
   <div class="col-1">
-    <button (click)="addToList(fields, newField)" class="w-100 h-100">
+    <button (click)="removeValueFromTemplate(newField)" class="w-100 h-100">
       <mat-icon> add </mat-icon>
     </button>
   </div>
@@ -94,12 +95,22 @@
 </div>
 
 <div class="row">
-  <div class="col-12">
-    <div class="row" style="height: 75px; ">
-      <button mat-button class="col-1" (click)="testTemplate(template)">
-        RUN
-      </button>
+  <button (click)="testTemplate(template)" style="width: 100%; height: 60px;">
+    Test
+  </button>
+</div>
+
+<div class="row">
+  <div class="col" *ngFor="let state of template['__test_info'] | keyvalue"
+    [ngStyle]="{'background': state.value.ok ? 'green' : 'red' }">
+    {{state.key}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col" *ngIf="template['__state'] !== 'in_use'">
+    <div class="row" *ngFor="let problem of problems">
+      {{problem}}
     </div>
-    <div class="row"></div>
   </div>
 </div>

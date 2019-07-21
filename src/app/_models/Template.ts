@@ -38,7 +38,36 @@ export class Template {
     usage: string[] = [];
     'score_function': string = '';
     'time_function': string = '';
-    '__state': string = '';
-    '__test_info': any;
+    '__state': string = 'acceptance';
+    '__test_info' = {
+        acceptance: {
+            ok: false,
+            problems: []
+        },
+        data: {
+            ok: false,
+            problems: []
+        },
+        duplication: {
+            ok: false,
+            problems: []
+        },
+        generation: {
+            ok: false,
+            problems: []
+        },
+        manual: {
+            ok: false,
+            problems: []
+        },
+        structure: {
+            ok: false,
+            problems: []
+        },
+        usage_tagging: {
+            ok: false,
+            problems: []
+        }
+    };
     datasets: Dataset[] = [];
 }
