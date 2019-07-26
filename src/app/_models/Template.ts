@@ -13,27 +13,10 @@ export class Template {
     _id: ObjectId;
     values: any = {};
     __idea: string = '';
-    '&&choose': any = {
-        title: X,
-        subtitle: X,
-        choice: X,
-        answer: X,
-    };
-    '&&select': any = {
-        title: X,
-        subtitle: X,
-        choice: X,
-        answer: X,
-    };
-    '&&write': any = {
-        title: X,
-        subtitle: X,
-        answer: X,
-    };
-    '&&bool': any = {
-        title: X,
-        subtitle: X
-    };
+    '&&choose': X;
+    '&&select': X;
+    '&&write': X;
+    '&&bool': X;
     tags: Tag[] = [];
     usage: string[] = [];
     'score_function': string = '';

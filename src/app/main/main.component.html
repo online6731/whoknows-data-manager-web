@@ -15,11 +15,10 @@
 
           <div class="row list">
             <div class="col">
-              <div class="row list-item" *ngFor="let resource of resources">
-                <button class="w-100 h-100" (click)="show('resource', resource)">
-                  <div class=" w-100" [innerHTML]="resource.headers.name"></div>
-                </button>
-              </div>
+              <button class="row list-item" *ngFor="let resource of resources" (click)="show('resource', resource)"
+                style="display: block; width: 100%; ">
+                {{ resource.headers.name }}
+              </button>
             </div>
           </div>
         </div>
@@ -77,8 +76,8 @@
           <div class="row list">
             <div class="col">
               <div class="row list-item" *ngFor="let template of templates">
-                <button class="w-100 h-100" (click)="show('template', template)">
-                  <div class=" w-100">{{ template.__idea }}</div>
+                <button class="w-100 h-100" (click)="show('template', template)" style="display: block">
+                  <span class="w-100" [innerHTML]="template.__idea" style="overflow-x: hidden"></span>
                 </button>
               </div>
             </div>
@@ -87,7 +86,6 @@
       </div>
     </div>
     <div class="right-section col-9" style="height: 100vh;">
-      <div class="row w-100 header"> {{ showingItemType }} editor</div>
       <app-template [template]="showingItem" *ngIf="showingItemType == 'template'">
       </app-template>
       <app-resource [resource]="showingItem" *ngIf="showingItemType == 'resource'"></app-resource>

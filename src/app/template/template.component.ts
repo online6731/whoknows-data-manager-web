@@ -35,30 +35,32 @@ export class TemplateComponent implements OnInit {
 
   problems: string[] = [];
 
-  newField = {
-    type: '',
-    format: '',
-    section: '',
-    language: '',
+  defaultField = {
+    type: '&&choose',
+    section: 'title',
+    format: 'text',
+    language: 'persian',
     content: ''
   };
 
+  newField = { ...this.defaultField };
+
   ngOnInit() {
+    this.fields = [];
     this.getAllDatasets();
     this.getAllTags();
   }
 
   ngOnChanges() {
+    console.log(this.template);
     this.showTemplate();
-    console.log(this.template.__state);
     this.problems = [];
     Object.keys(this.template.__test_info).forEach(key => {
-      console.log(key);
-      this.problems = this.problems.concat(this.template.__test_info[key].problems);
+      this.problems = [...this.problems, ...this.template.__test_info[key].problems];
     });
-    console.log(this.problems);
-    console.log(this.template);
   }
+
+  sortNull() { }
 
   getAllDatasets() {
     this.datasetService.datasetFind().subscribe((body) => {
@@ -103,6 +105,7 @@ export class TemplateComponent implements OnInit {
     if (list.indexOf(value) !== -1) {
       list.splice(list.indexOf(value), 1);
     }
+    console.log(list);
   }
 
   addToList(list: any[], value: any) {
@@ -121,30 +124,27 @@ export class TemplateComponent implements OnInit {
     object[key] = value;
   }
 
-  addValueToTemplate(newField: any) {
-    if (!(newField.type in this.template)) {
-      this.template[newField.type] = {};
-    }
-    if (!(newField.section in this.template[newField.type])) {
-      this.template[newField.type][newField.section] = {};
+  addFieldToTemplate(field: any) {
+    if (!(field.type in this.template)) {
+      this.template[field.type] = {};
     }
 
-    if (!(newField.format in this.template[newField.type][newField.section])) {
-      this.template[newField.type][newField.section][newField.format] = [];
+    if (!(field.section in this.template[field.type])) {
+      this.template[field.type][field.section] = {};
     }
 
-    this.template[newField.type][newField.section][newField.format].push(newField.content);
+    if (!(field.format in this.template[field.type][field.section])) {
+      this.template[field.type][field.section][field.format] = [];
+    }
 
-    newField.type = '';
-    newField.section = '';
-    newField.language = '';
-    newField.format = '';
-    newField.content = '';
+    this.template[field.type][field.section][field.format].push(field.content);
+
+    this.newField = { ...this.defaultField };
 
     this.ngOnChanges();
   }
 
-  removeValueFromTemplate(newField: any) {
+  removeFieldFromTemplate(newField: any) {
     try {
       delete this.template[newField.type][newField.section][newField.format];
     } catch (error) {
@@ -155,10 +155,11 @@ export class TemplateComponent implements OnInit {
   testTemplate(template: Template) {
     this.templateService.templateTest(template).subscribe((body) => {
       if (body.ok === true) {
-        console.log(body);
+        this.template = body.template;
       } else {
 
       }
+      console.log(this.template);
     });
   }
 }
